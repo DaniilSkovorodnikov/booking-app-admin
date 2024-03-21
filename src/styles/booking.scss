@@ -1,0 +1,17 @@
+.booking{
+  width: 100%;
+  flex-grow: 1;
+  background-color: #d9d9d9;
+  position: relative;
+
+  &-collapse{
+    position: absolute;
+    left: 18px;
+    top: 12px;
+  }
+
+  &-action{
+    background-color: #BBBBBB;
+    color: black;
+  }
+}

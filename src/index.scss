@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+
+html,body{
+    margin: 0;
+    padding: 0;
+}
+
+ol,ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+h1,h2,h3,h4,h5,h6,p,a{
+    margin: 0;
+    padding: 0;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 50% 100%;
+    background-repeat: no-repeat;
+    background-size: 0 1px;
+    transition: background-size .2s ease-in-out;
+
+    &:hover{
+        background-size: 100% 1px;
+    }
+
+    &.active{
+        color: #0C92F3;
+    }
+}
