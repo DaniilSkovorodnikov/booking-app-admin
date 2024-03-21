@@ -1,4 +1,4 @@
-import {FormEvent, useState} from 'react';
+import {useState} from 'react';
 import {IRestaurant} from "../models/entities.tsx";
 import {Button, Container, Flex, Group, Input, Textarea, Title} from "@mantine/core";
 import {useForm} from "@mantine/form";
