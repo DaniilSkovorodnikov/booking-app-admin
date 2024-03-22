@@ -40,7 +40,7 @@ const AddUser = () => {
                     </Flex>
                     <Flex direction="column">
                         <Input placeholder="Пароль ещё раз" required {...form.getInputProps('passwordConfirm')}/>
-                        {form.errors?.passwordRepeat && <InputError errorMessage={form.errors.passwordRepeat as string}/>}
+                        {form.errors?.passwordConfirm && <InputError errorMessage={form.errors.passwordConfirm as string}/>}
                     </Flex>
                     <Button type="submit">Подтвердить</Button>
                 </Flex>
