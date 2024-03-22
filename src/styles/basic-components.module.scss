@@ -3,6 +3,7 @@
     border-radius: 0;
     color: black;
     border: none;
+    position: relative;
 
     &:disabled{
         cursor: default;
@@ -39,5 +40,40 @@
 }
 
 .textarea{
+    font-size: 17px;
+}
+
+.dateInput{
+    height: 60px;
+    padding: 0 20px;
+    color: black;
+    font-size: 20px;
+
+    *{
+        color: black;
+    }
+}
+
+.timeInput{
+
+    &>div>input{
+        background-color: white;
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+    }
+}
+
+.dateTimeInputWrapper{
+
+    &>div[data-position="right"]{
+        width: 58px;
+    }
+}
+
+.dateTimeError{
+    color: crimson;
+}
+
+.inputLabel{
     font-size: 17px;
 }

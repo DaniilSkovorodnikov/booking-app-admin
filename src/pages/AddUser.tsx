@@ -1,8 +1,9 @@
-import {Button, Container, Flex, Input, Title} from "@mantine/core";
+import {Button, Container, Flex, Title} from "@mantine/core";
 import {hasLength, useForm} from "@mantine/form";
 import {UserRegistrationForm} from "../models/components.ts";
 import InputError from "../components/InputError.tsx";
 import {validateLogin} from "../utils/helpers.ts";
+import Input from "../components/InputOverride.tsx";
 
 const AddUser = () => {
     const form = useForm<UserRegistrationForm>({
@@ -30,15 +31,15 @@ const AddUser = () => {
             <form onSubmit={form.onSubmit(handleSubmit)}>
                 <Flex direction="column" gap="md" mt={24}>
                     <Flex direction="column">
-                        <Input placeholder="Логин" {...form.getInputProps('login')}/>
+                        <Input placeholder="Логин" required {...form.getInputProps('login')}/>
                         {form.errors?.login && <InputError errorMessage={form.errors.login as string}/>}
                     </Flex>
                     <Flex direction="column">
-                        <Input placeholder="Пароль" {...form.getInputProps('password')}/>
+                        <Input placeholder="Пароль" required {...form.getInputProps('password')}/>
                         {form.errors?.password && <InputError errorMessage={form.errors.password as string}/>}
                     </Flex>
                     <Flex direction="column">
-                        <Input placeholder="Пароль ещё раз" {...form.getInputProps('passwordConfirm')}/>
+                        <Input placeholder="Пароль ещё раз" required {...form.getInputProps('passwordConfirm')}/>
                         {form.errors?.passwordRepeat && <InputError errorMessage={form.errors.passwordRepeat as string}/>}
                     </Flex>
                     <Button type="submit">Подтвердить</Button>

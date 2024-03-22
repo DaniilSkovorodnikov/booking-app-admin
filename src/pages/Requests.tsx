@@ -9,7 +9,7 @@ const Requests = () => {
         <Container fluid>
             <Title order={1}>Заявки на бронирование</Title>
             <Flex direction="column" gap="sm" mt="xl">
-                {bookings.map(booking => <BookingCard booking={booking} isRequest/>)}
+                {bookings.map((booking, i) => <BookingCard key={i} booking={booking} isRequest/>)}
             </Flex>
         </Container>
     );

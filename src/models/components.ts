@@ -8,3 +8,10 @@ export type UserRegistrationForm = {
     password: string,
     passwordConfirm: string
 }
+
+export type AddBookingForm = {
+    name: string,
+    persons_count: string,
+    dateTime: string,
+    tableType: string
+}

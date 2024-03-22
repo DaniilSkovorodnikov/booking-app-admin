@@ -1,11 +1,12 @@
 import {AuthProps} from "../models/props.ts";
-import {Box, Button, Center, Container, Flex, Input} from "@mantine/core";
+import {Box, Button, Center, Container, Flex} from "@mantine/core";
 import "../styles/auth.scss"
 import {Link} from "react-router-dom";
 import {hasLength, useForm} from "@mantine/form";
 import {validateLogin} from "../utils/helpers.ts";
 import {UserRegistrationForm} from "../models/components.ts";
 import InputError from "../components/InputError.tsx";
+import Input from "../components/InputOverride.tsx";
 
 const Auth = ({isRegistration}: AuthProps) => {
     const form = useForm<UserRegistrationForm | Omit<UserRegistrationForm, 'passwordConfirm'>>(!isRegistration ? {

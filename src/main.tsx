@@ -4,7 +4,9 @@ import './index.scss'
 import {ActionIcon, Badge, Button, createTheme, Input, MantineProvider, Textarea} from "@mantine/core";
 import {BrowserRouter} from "react-router-dom";
 import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
 import classes from "./styles/basic-components.module.scss";
+import {DateTimePicker, TimeInput} from "@mantine/dates";
 
 export const theme = createTheme({
     fontFamily: 'Ubuntu, sans-serif',
@@ -45,6 +47,22 @@ export const theme = createTheme({
             },
             classNames: {
                 input: classes.textarea
+            }
+        }),
+        DateTimePicker: DateTimePicker.extend({
+            defaultProps: {
+              size: 'md'
+            },
+            classNames: {
+                input: classes.dateInput,
+                timeInput: classes.timeInput,
+                wrapper: classes.dateTimeInputWrapper,
+                error: classes.dateTimeError
+            }
+        }),
+        TimeInput: TimeInput.extend({
+            classNames: {
+                label: classes.inputLabel
             }
         })
     },

@@ -1,8 +1,10 @@
 import {useState} from 'react';
 import {IRestaurant} from "../models/entities.tsx";
-import {Button, Container, Flex, Group, Input, Textarea, Title} from "@mantine/core";
-import {useForm} from "@mantine/form";
+import {Button, Container, Flex, Group, Textarea, Title} from "@mantine/core";
+import {isNotEmpty, useForm} from "@mantine/form";
 import {TimeInput} from "@mantine/dates";
+import Input from "../components/InputOverride.tsx";
+import InputError from "../components/InputError.tsx";
 
 const RestaurantInfo = () => {
     const [isEditMode, setIsEditMode] = useState(false)
@@ -10,11 +12,14 @@ const RestaurantInfo = () => {
 
     const form = useForm({
         initialValues: {...restaurant},
+        validate: {
+            name: isNotEmpty('Поле обязательно к заполнению')
+        }
     })
     const {categories} = form.values
 
     const handleSubmit = (value: IRestaurant) => {
-        if(!isEditMode){
+        if(!isEditMode || form.validate().hasErrors){
             return
         }
         console.log(value)
@@ -26,12 +31,20 @@ const RestaurantInfo = () => {
             <Title order={1}>Информация о ресторане</Title>
             <form>
                 <Flex direction="column" gap="md" mt="xl">
-                    <Input disabled={!isEditMode} placeholder="Название" {...form.getInputProps('name')}/>
+                    <Flex direction="column">
+                        <Input
+                            disabled={!isEditMode}
+                            placeholder="Название"
+                            required
+                            {...form.getInputProps('name')}
+                        />
+                        {form.errors?.name && <InputError errorMessage={form.errors.name as string}/>}
+                    </Flex>
                     <Textarea disabled={!isEditMode} placeholder="Описание" {...form.getInputProps('description')}/>
                     {isEditMode ?
                         <Flex gap="md">
-                            <TimeInput label="Начало" {...form.getInputProps("open_from")}/>
-                            <TimeInput label="Конец" {...form.getInputProps("open_to")}/>
+                            <TimeInput size="lg" label="Начало" {...form.getInputProps("open_from")}/>
+                            <TimeInput size="lg" label="Конец" {...form.getInputProps("open_to")}/>
                         </Flex> :
                         <Input disabled value={`${restaurant.open_from} - ${restaurant.open_to}`}/>
                     }
