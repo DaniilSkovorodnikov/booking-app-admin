@@ -1,14 +1,16 @@
-import {useState} from 'react';
+import {useMemo, useState} from 'react';
 import {IRestaurant} from "../models/entities.tsx";
 import {Button, Container, Flex, Group, Textarea, Title} from "@mantine/core";
 import {isNotEmpty, useForm} from "@mantine/form";
 import {TimeInput} from "@mantine/dates";
 import Input from "../components/InputOverride.tsx";
 import InputError from "../components/InputError.tsx";
+import ImageInput from "../components/ImageInput.tsx";
 
 const RestaurantInfo = () => {
     const [isEditMode, setIsEditMode] = useState(false)
     const [restaurant, setRestaurant] = useState(mockRestaurant)
+    const [images, setImages] = useState<string[]>([])
 
     const form = useForm({
         initialValues: {...restaurant},
@@ -18,12 +20,21 @@ const RestaurantInfo = () => {
     })
     const {categories} = form.values
 
+
     const handleSubmit = (value: IRestaurant) => {
         if(!isEditMode || form.validate().hasErrors){
             return
         }
         console.log(value)
         setIsEditMode(false)
+    }
+
+    const handleAddImage = (event) => {
+        if(event.target?.files?.length){
+            form.setFieldValue('images', [...form.values.images, event.target.files[0]])
+            const fileReader = new FileReader()
+            fileReader.onloadend = (event) => setImages(prevState => [...prevState, event.target.result])
+            fileReader.readAsDataURL(event.target.files[0])}
     }
 
     return (
@@ -49,6 +60,14 @@ const RestaurantInfo = () => {
                         <Input disabled value={`${restaurant.open_from} - ${restaurant.open_to}`}/>
                     }
                     <Input disabled={!isEditMode} placeholder="Вебсайт" {...form.getInputProps("site")}/>
+                    <Container fluid p={0} m={0}>
+                        <Title order={3} mb={8}>Фото ресторана</Title>
+                        <Flex gap="md" align="center">
+                            {images.map(src => <img src={src} style={{width: 120, height: 120}}/>)}
+                            {images.length < 5 && <ImageInput onChange={handleAddImage}/>}
+                        </Flex>
+
+                    </Container>
                     <Container fluid p={0} m={0}>
                         <Title order={3} mb={8}>Характеристики</Title>
                         <Group>
@@ -107,7 +126,8 @@ const mockRestaurant: IRestaurant = {
     open_to: "00:00",
     main_image: null,
     categories: ["Бургеры", "Выпечка", "Италия", "Завтрак"],
-    site: 'http://localhost:5173/info'
+    site: 'http://localhost:5173/info',
+    images: []
 }
 
 const restaurantCategories = ["Бургеры", "Выпечка", "Италия", "Завтрак", "Кавказ", "Ланч", "Морепродукты", "Мясо"]

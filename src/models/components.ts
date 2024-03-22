@@ -1,3 +1,5 @@
+import {ChangeEventHandler} from "react";
+
 export type NavLink = {
     title: string,
     path: string
@@ -14,4 +16,8 @@ export type AddBookingForm = {
     persons_count: string,
     dateTime: string,
     tableType: string
+}
+
+export type ImageInputProps = {
+    onChange: ChangeEventHandler<HTMLInputElement>
 }

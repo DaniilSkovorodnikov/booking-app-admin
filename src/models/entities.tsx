@@ -21,7 +21,8 @@ export interface IRestaurant {
     open_from: string,
     open_to: string,
     categories: string[],
-    site: string
+    site: string,
+    images: File[]
 }
 
 export interface IStatistics {
