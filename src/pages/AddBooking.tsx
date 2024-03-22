@@ -57,7 +57,7 @@ const AddBooking = () => {
                             rightSection={<span
                                 style={{fontSize: 37, color: "crimson"}}
                             >&#9913;</span>}
-                            valueFormat="DD.MM.YYYY - hh:mm"
+                            valueFormat="DD.MM.YYYY - HH:mm"
                             {...form.getInputProps('dateTime')}
                         />
                     </Flex>
