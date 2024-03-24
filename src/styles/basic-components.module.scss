@@ -37,6 +37,15 @@
         color: black;
         font-weight: 400;
     }
+    &[data-variant='input']{
+        min-width: 100%;
+        background-color: #d9d9d9;
+        color: black;
+        font-weight: 400;
+        display: flex;
+        padding-left: 20px;
+    }
+
 }
 
 .textarea{

@@ -1,4 +1,4 @@
-import {useMemo, useState} from 'react';
+import {useState} from 'react';
 import {IRestaurant} from "../models/entities.tsx";
 import {Button, Container, Flex, Group, Textarea, Title} from "@mantine/core";
 import {isNotEmpty, useForm} from "@mantine/form";
@@ -6,6 +6,8 @@ import {TimeInput} from "@mantine/dates";
 import Input from "../components/InputOverride.tsx";
 import InputError from "../components/InputError.tsx";
 import ImageInput from "../components/ImageInput.tsx";
+import '../styles/restaurant.scss'
+import SuggestAddress from "../components/SuggestAddress.tsx";
 
 const RestaurantInfo = () => {
     const [isEditMode, setIsEditMode] = useState(false)
@@ -33,7 +35,7 @@ const RestaurantInfo = () => {
         if(event.target?.files?.length){
             form.setFieldValue('images', [...form.values.images, event.target.files[0]])
             const fileReader = new FileReader()
-            fileReader.onloadend = (event) => setImages(prevState => [...prevState, event.target.result])
+            fileReader.onloadend = (event) => setImages(prevState => [...prevState, event.target.result as string])
             fileReader.readAsDataURL(event.target.files[0])}
     }
 
@@ -59,14 +61,17 @@ const RestaurantInfo = () => {
                         </Flex> :
                         <Input disabled value={`${restaurant.open_from} - ${restaurant.open_to}`}/>
                     }
+                    <SuggestAddress disabled={!isEditMode} onChange={({latitude, longitude}) => {
+                        form.setFieldValue('latitude', latitude);
+                        form.setFieldValue('longitude', longitude);
+                    }}/>
                     <Input disabled={!isEditMode} placeholder="Вебсайт" {...form.getInputProps("site")}/>
                     <Container fluid p={0} m={0}>
                         <Title order={3} mb={8}>Фото ресторана</Title>
                         <Flex gap="md" align="center">
-                            {images.map(src => <img src={src} style={{width: 120, height: 120}}/>)}
-                            {images.length < 5 && <ImageInput onChange={handleAddImage}/>}
+                            {images.map((src, i) => <img className='restaurant-photo' key={i} src={src} style={{width: 120, height: 120}}/>)}
+                            {isEditMode && images.length < 5 && <ImageInput onChange={handleAddImage}/>}
                         </Flex>
-
                     </Container>
                     <Container fluid p={0} m={0}>
                         <Title order={3} mb={8}>Характеристики</Title>

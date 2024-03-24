@@ -4,7 +4,7 @@ import {ImageInputProps} from "../models/components.ts";
 const ImageInput = ({onChange} : ImageInputProps) => {
     return (
         <label className='imageInput'>
-            <span className='imageInput-visiblePart'>+</span>
+            <p className='imageInput-visiblePart'>+</p>
             <input
                 className='imageInput-input'
                 type="file"

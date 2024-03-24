@@ -1,0 +1,12 @@
+.restaurant{
+  &-photo{
+    object-fit: cover;
+    border: 1px solid black;
+  }
+
+  &-changeAddress{
+    background-color: #d9d9d9;
+    min-width: 100%;
+    max-width: 100%;
+  }
+}

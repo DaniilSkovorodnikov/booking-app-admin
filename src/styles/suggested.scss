@@ -1,0 +1,11 @@
+.suggested{
+  padding: 6px 12px;
+  min-height: 30px;
+  background-color: white;
+  transition: all 0.15s linear;
+
+  &:hover{
+    background-color: #0C92F3;
+    color: white;
+  }
+}

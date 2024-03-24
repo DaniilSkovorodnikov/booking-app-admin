@@ -1,6 +1,13 @@
 import {IBooking} from "./entities.tsx";
 import {InputProps} from "@mantine/core";
-import {HTMLInputTypeAttribute, ReactNode} from "react";
+import {
+    ChangeEventHandler,
+    FocusEventHandler,
+    HTMLInputTypeAttribute,
+    MouseEventHandler,
+    ReactNode,
+    RefObject
+} from "react";
 
 export interface AuthProps {
     isRegistration?: boolean
@@ -18,5 +25,13 @@ export type InputErrorProps = {
 export interface InputOverrideProps extends InputProps{
     placeholder?: string,
     type?: HTMLInputTypeAttribute,
-    value?: any
+    value?: any,
+    onChange?: ChangeEventHandler<HTMLInputElement>,
+    onClick?: MouseEventHandler<HTMLInputElement>,
+    onFocus?: FocusEventHandler<HTMLInputElement>
+}
+
+export interface SuggestedInputProps {
+    disabled?: boolean,
+    onChange: (coords: {latitude: number, longitude: number}) => void
 }

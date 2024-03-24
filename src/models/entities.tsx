@@ -25,6 +25,33 @@ export interface IRestaurant {
     images: File[]
 }
 
+export interface ISuggestedAddress{
+    address: {formatted_address: string, },
+    distance: {value: number, text: string},
+    tags: string[],
+    title: {text: string}
+}
+
+export interface IGeocodeResult{
+    response: {
+        GeoObjectCollection: {
+            featureMember: Array<{
+                GeoObject: {
+                    Point: {pos: string},
+                    description: string,
+                    name: string,
+                    uri: string
+                }
+            }>,
+            metaDataProperty: {
+                GeocoderResponseMetaData: {
+                    found: string,
+                }
+            }
+        }
+    }
+}
+
 export interface IStatistics {
     reserved: number,
     free: number,
