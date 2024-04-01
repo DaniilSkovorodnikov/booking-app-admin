@@ -1,12 +1,13 @@
 import {NavLink} from "../models/components.ts";
 
 export const navLinks: NavLink[] = [
-    {title: 'Подтвержденные бронирования', path: '/'},
-    {title: 'Добавить бронирование', path: '/add-booking'},
-    {title: 'Заявки', path: '/requests'},
-    {title: 'Информация о ресторане', path: '/info'},
-    {title: 'Добавить учетную запись', path: '/add-user'},
-    {title: 'Статистика', path: '/stats'},
+    {title: 'Подтвержденные бронирования', path: '/', show: (role) => role === 'admin'},
+    {title: 'Добавить бронирование', path: '/add-booking', show: (role) => role === 'admin'},
+    {title: 'Заявки', path: '/requests', show: (role) => role === 'admin'},
+    {title: 'Информация о ресторане', path: '/info', show: (role) => role === 'admin'},
+    {title: 'Добавить учетную запись', path: '/add-user', show: (role) => ['superadmin', 'admin'].includes(role)},
+    {title: 'Статистика', path: '/stats', show: (role) => role === 'admin'},
+    {title: 'Все рестораны', path: '/restaurants', show: (role) => role === 'superadmin'},
 ]
 
 export const months = [

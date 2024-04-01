@@ -1,12 +1,27 @@
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.scss'
-import {ActionIcon, Badge, Button, createTheme, Input, MantineProvider, Textarea} from "@mantine/core";
+import {
+    ActionIcon,
+    AppShell,
+    Badge,
+    Button,
+    createTheme,
+    Input,
+    MantineProvider, Notification,
+    Textarea
+} from "@mantine/core";
 import {BrowserRouter} from "react-router-dom";
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
+import '@mantine/notifications/styles.css';
 import classes from "./styles/basic-components.module.scss";
 import {DateTimePicker, TimeInput} from "@mantine/dates";
+import {Provider} from "react-redux";
+import {configureStore} from "@reduxjs/toolkit";
+import {rootReducer} from "./store";
+import {api} from "./store/api/api.ts";
+import {Notifications} from "@mantine/notifications";
 
 export const theme = createTheme({
     fontFamily: 'Ubuntu, sans-serif',
@@ -64,21 +79,39 @@ export const theme = createTheme({
             classNames: {
                 label: classes.inputLabel
             }
+        }),
+        AppShell: AppShell.extend({
+            classNames: {
+                navbar: classes.navbar
+            }
+        }),
+        Notification: Notification.extend({
+            classNames: {
+                root: classes.notification,
+            }
         })
     },
     headings: {
         fontWeight: "600",
         sizes: {
-            h1: {fontSize: '27px'},
+            h1: {fontSize: '27px', fontWeight: '400'},
             h3: {fontSize: '17px', fontWeight: '400'}
         }
-    }
+    },
+})
+
+export const store = configureStore({
+    reducer: rootReducer,
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(api.middleware)
 })
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <MantineProvider theme={theme}>
-        <BrowserRouter>
-            <App/>
-        </BrowserRouter>
-    </MantineProvider>,
+    <Provider store={store}>
+        <MantineProvider theme={theme}>
+            <Notifications/>
+            <BrowserRouter>
+                <App/>
+            </BrowserRouter>
+        </MantineProvider>
+    </Provider>,
 )

@@ -1,5 +1,5 @@
 import {Button, Container, Flex, Title} from "@mantine/core";
-import "../styles/booking.scss"
+import "../styles/card.scss"
 import Input from "../components/InputOverride.tsx";
 import {DateTimePicker} from "@mantine/dates";
 import 'dayjs/locale/ru.js';

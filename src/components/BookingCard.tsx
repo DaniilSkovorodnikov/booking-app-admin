@@ -2,16 +2,16 @@ import {BookingCardProps} from "../models/props.ts";
 import {useDisclosure} from "@mantine/hooks";
 import {ActionIcon, Badge, Button, Collapse, Container, Flex, Image} from "@mantine/core";
 import collapseIcon from "../assets/img/collapse-icon.svg"
-import "../styles/booking.scss"
+import "../styles/card.scss"
 import {getBookingPeriod, getPersonsCountString} from "../utils/helpers.ts";
 
 const BookingCard = ({booking, isRequest}: BookingCardProps) => {
     const [collapsed, { toggle }] = useDisclosure(false);
 
     return (
-        <Container fluid className="booking" pl={66} pr={18} py={12}>
-            <div className="booking-collapse">
-                <ActionIcon color="#bbb" onClick={toggle} w={40} h={40}>
+        <Container fluid className="card" pl={66} pr={18} py={12}>
+            <div className="card-collapse">
+                <ActionIcon color="#F2F3F8" onClick={toggle} w={40} h={40}>
                     <Image src={collapseIcon} w={15} h={7.5}/>
                 </ActionIcon>
             </div>
@@ -31,7 +31,7 @@ const BookingCard = ({booking, isRequest}: BookingCardProps) => {
                     <p>Имя: {booking.user.name}</p>
                     <p>Номер телефона: {booking.user.phone_number}</p>
                     <Flex gap="xl" mt={16}>
-                        <Button variant="gray" size="sm">{isRequest ? 'Подтвердить бронирование' : 'Завершить посещение'}</Button>
+                        <Button size="sm">{isRequest ? 'Подтвердить бронирование' : 'Завершить посещение'}</Button>
                         <Button variant="gray" size="sm">Отменить бронирование</Button>
                     </Flex>
                 </Container>

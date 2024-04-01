@@ -1,27 +1,27 @@
 import {Button, Container, Flex, Title} from "@mantine/core";
-import {hasLength, useForm} from "@mantine/form";
-import {UserRegistrationForm} from "../models/components.ts";
+import {hasLength, isEmail, isNotEmpty, useForm} from "@mantine/form";
+import {AddRestaurantForm, UserAuthForm} from "../models/components.ts";
 import InputError from "../components/InputError.tsx";
 import {validateLogin} from "../utils/helpers.ts";
 import Input from "../components/InputOverride.tsx";
+import {useUserInfoQuery} from "../store/api/userApi.ts";
+import {Roles} from "../utils/enums.ts";
 
 const AddUser = () => {
-    const form = useForm<UserRegistrationForm>({
+    const {data} = useUserInfoQuery()
+
+    const form = useForm<AddRestaurantForm>({
         initialValues: {
-            login: '',
-            password: '',
-            passwordConfirm: ''
+            name: '',
+            email: ''
         },
         validate: {
-            login: (value) => validateLogin(value),
-            password: hasLength({min: 6}, "Минимальная длина 6 символов"),
-            passwordConfirm: (value, values) => values.password !== value ?
-                "Пароли не совпадают" :
-                null
+            name: isNotEmpty('Поле обязательно к заполнению'),
+            email: isEmail('Некорректный формат')
         }
     })
 
-    const handleSubmit = (value: UserRegistrationForm) => {
+    const handleSubmit = (value: AddRestaurantForm) => {
         console.log(value)
     }
 
@@ -31,18 +31,14 @@ const AddUser = () => {
             <form onSubmit={form.onSubmit(handleSubmit)}>
                 <Flex direction="column" gap="md" mt={24}>
                     <Flex direction="column">
-                        <Input placeholder="Логин" required {...form.getInputProps('login')}/>
-                        {form.errors?.login && <InputError errorMessage={form.errors.login as string}/>}
+                        <Input placeholder={data.role === Roles.Admin ? "Имя" : "Название ресторана"} required {...form.getInputProps('name')}/>
+                        {form.errors?.name && <InputError errorMessage={form.errors.name as string}/>}
                     </Flex>
                     <Flex direction="column">
-                        <Input placeholder="Пароль" required {...form.getInputProps('password')}/>
-                        {form.errors?.password && <InputError errorMessage={form.errors.password as string}/>}
+                        <Input placeholder="Электронная почта для получения пароля" required {...form.getInputProps('email')}/>
+                        {form.errors?.email && <InputError errorMessage={form.errors.email as string}/>}
                     </Flex>
-                    <Flex direction="column">
-                        <Input placeholder="Пароль ещё раз" required {...form.getInputProps('passwordConfirm')}/>
-                        {form.errors?.passwordConfirm && <InputError errorMessage={form.errors.passwordConfirm as string}/>}
-                    </Flex>
-                    <Button type="submit">Подтвердить</Button>
+                    <Button type="submit">Добавить ресторан</Button>
                 </Flex>
             </form>
         </Container>

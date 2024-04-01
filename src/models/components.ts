@@ -2,13 +2,18 @@ import {ChangeEventHandler} from "react";
 
 export type NavLink = {
     title: string,
-    path: string
+    path: string,
+    show?: (role: string) => boolean
 }
 
-export type UserRegistrationForm = {
-    login: string,
+export type UserAuthForm = {
+    email: string,
     password: string,
-    passwordConfirm: string
+}
+
+export type AddRestaurantForm = {
+    name: string,
+    email: string
 }
 
 export type AddBookingForm = {
