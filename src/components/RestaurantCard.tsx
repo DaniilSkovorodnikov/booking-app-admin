@@ -1,11 +1,11 @@
 import React from 'react';
-import {AllRestaurantsResponseItem} from "../models/api.ts";
-import {ActionIcon, Badge, Container, Flex, Image, Title} from "@mantine/core";
+import {ActionIcon, Badge, Button, Collapse, Container, Flex, Image, Title} from "@mantine/core";
 import {useDisclosure} from "@mantine/hooks";
 import '../styles/card.scss'
 import collapseIcon from "../assets/img/collapse-icon.svg";
+import {IRestaurant} from "../models/entities.tsx";
 
-const RestaurantCard = ({restaurant}: {restaurant: AllRestaurantsResponseItem}) => {
+const RestaurantCard = ({restaurant}: {restaurant: IRestaurant}) => {
     const [collapsed, {toggle}] = useDisclosure()
 
     return (
@@ -25,8 +25,17 @@ const RestaurantCard = ({restaurant}: {restaurant: AllRestaurantsResponseItem}) 
                     <Title order={3}>{restaurant.name}</Title>
                     <Badge>Пользователь:</Badge>
                 </Flex>
-                <Badge>1 точка</Badge>
+                <Badge variant={restaurant.active ? 'success' : 'danger'}>
+                    {restaurant.active ? 'Активен' : 'Не активен'}
+                </Badge>
             </Flex>
+            <Collapse in={collapsed}>
+                <Container p={0} m={0} mt={16}>
+                    <p>Номер телефона: {restaurant.phone_number}</p>
+                    <p>Веб сайт: {restaurant.site}</p>
+                    <p>Адрес: {restaurant.address}</p>
+                </Container>
+            </Collapse>
         </Container>
     );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container, Flex, Loader, Skeleton, Title} from "@mantine/core";
+import {Container, Flex, Skeleton, Title} from "@mantine/core";
 import {useAllRestaurantsQuery} from "../store/api/restaurantApi.ts";
 import RestaurantCard from "../components/RestaurantCard.tsx";
 
@@ -16,7 +16,7 @@ const Restaurants = () => {
     return (
         <Container>
             <Title order={1}>Все рестораны</Title>
-            <Flex direction="column" gap='md'>
+            <Flex direction="column" gap='md' mt={16}>
                 {data.map(restaurant => <RestaurantCard key={restaurant.id} restaurant={restaurant}/>)}
             </Flex>
         </Container>

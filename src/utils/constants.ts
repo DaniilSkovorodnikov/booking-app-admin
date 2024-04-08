@@ -1,13 +1,42 @@
 import {NavLink} from "../models/components.ts";
+import {Roles} from "./enums.ts";
 
 export const navLinks: NavLink[] = [
-    {title: 'Подтвержденные бронирования', path: '/', show: (role) => role === 'admin'},
-    {title: 'Добавить бронирование', path: '/add-booking', show: (role) => role === 'admin'},
-    {title: 'Заявки', path: '/requests', show: (role) => role === 'admin'},
-    {title: 'Информация о ресторане', path: '/info', show: (role) => role === 'admin'},
-    {title: 'Добавить учетную запись', path: '/add-user', show: (role) => ['superadmin', 'admin'].includes(role)},
-    {title: 'Статистика', path: '/stats', show: (role) => role === 'admin'},
-    {title: 'Все рестораны', path: '/restaurants', show: (role) => role === 'superadmin'},
+    {
+        title: 'Подтвержденные бронирования',
+        path: '/',
+        show: (role: Roles) => [Roles.Staff, Roles.Admin].includes(role)
+    },
+    {
+        title: 'Добавить бронирование',
+        path: '/add-booking',
+        show: (role: Roles) => [Roles.Staff, Roles.Admin].includes(role)
+    },
+    {
+        title: 'Заявки',
+        path: '/requests',
+        show: (role: Roles) => [Roles.Staff, Roles.Admin].includes(role)
+    },
+    {
+        title: 'Информация о ресторане',
+        path: '/info',
+        show: (role: Roles) => role === Roles.Admin
+    },
+    {
+        title: 'Добавить учетную запись',
+        path: '/add-user',
+        show: (role: Roles) => [Roles.Admin, Roles.SuperAdmin].includes(role)
+    },
+    {
+        title: 'Статистика',
+        path: '/stats',
+        show: (role: Roles) => role === Roles.Admin
+    },
+    {
+        title: 'Все рестораны',
+        path: '/restaurants',
+        show: (role) => role === Roles.SuperAdmin
+    },
 ]
 
 export const months = [

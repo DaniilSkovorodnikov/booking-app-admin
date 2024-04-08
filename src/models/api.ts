@@ -12,10 +12,17 @@ export type UserResponse = {
     id: number
 }
 
-export type AllRestaurantsResponseItem = {
-    id: number,
+export type AddRestaurantResponse = {
     name: string,
-    account_id: number
+    admin_password: string,
+    id: number,
+}
+
+export type AddUserResponse = {
+    id: number,
+    email: string,
+    role: string,
+    password: string,
 }
 
 export type DefaultError = {

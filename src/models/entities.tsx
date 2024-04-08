@@ -15,14 +15,17 @@ export interface IUser {
 export interface IRestaurant {
     name: string,
     description: string | null,
-    main_image: string | null,
     latitude: number,
     longitude: number,
     open_from: string,
     open_to: string,
-    categories: string[],
+    tags: string[],
     site: string,
-    images: File[]
+    images: File[],
+    address: string,
+    phone_number: string,
+    id: number,
+    active: boolean
 }
 
 export interface ISuggestedAddress{

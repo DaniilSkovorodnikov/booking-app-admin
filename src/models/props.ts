@@ -33,5 +33,5 @@ export interface InputOverrideProps extends InputProps{
 
 export interface SuggestedInputProps {
     disabled?: boolean,
-    onChange: (coords: {latitude: number, longitude: number}) => void
+    onChange: (address: string, coords: {latitude: number, longitude: number}) => void
 }

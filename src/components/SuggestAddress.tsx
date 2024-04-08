@@ -33,7 +33,7 @@ const SuggestAddress = ({onChange, disabled}: SuggestedInputProps) => {
                 .then((value: IGeocodeResult) => {
                     if (+value.response.GeoObjectCollection.metaDataProperty.GeocoderResponseMetaData.found > 0) {
                         const coords = value.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')
-                        onChange({latitude: +coords[0], longitude: +coords[1]})
+                        onChange(item.address.formatted_address, {latitude: +coords[0], longitude: +coords[1]})
                     }
                 })
         }

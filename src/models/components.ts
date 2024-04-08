@@ -13,6 +13,11 @@ export type UserAuthForm = {
 
 export type AddRestaurantForm = {
     name: string,
+    admin_email: string
+}
+
+export type AddUserForm = {
+    name: string,
     email: string
 }
 

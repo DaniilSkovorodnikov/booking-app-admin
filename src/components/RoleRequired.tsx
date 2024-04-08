@@ -4,7 +4,7 @@ import {Outlet, useNavigate} from "react-router-dom";
 import {Roles} from "../utils/enums.ts";
 import {Loader} from "@mantine/core";
 
-const RoleRequired = ({roles}: {roles: Roles[]}) => {
+const RoleRequired = ({roles}: { roles: Roles[] }) => {
     const navigate = useNavigate()
     const {data, isLoading} = useUserInfoQuery()
     const accessDenied = useMemo(
@@ -13,18 +13,17 @@ const RoleRequired = ({roles}: {roles: Roles[]}) => {
     )
 
     useEffect(() => {
-        if(accessDenied && data.role === Roles.Admin){
-            navigate('/')
-        }
-        if(accessDenied && data.role === Roles.SuperAdmin){
-            navigate('/add-user')
+        if (accessDenied) {
+            data.role === Roles.SuperAdmin ?
+                navigate('/add-user') :
+                navigate('/')
         }
     }, [data, accessDenied, navigate])
 
-    if(isLoading){
+    if (isLoading) {
         return <Loader size='xl'/>
     }
-    if(accessDenied){
+    if (accessDenied) {
         return <div>Denied access page</div>
     }
     return (

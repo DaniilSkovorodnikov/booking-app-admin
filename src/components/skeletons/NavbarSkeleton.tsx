@@ -1,6 +1,6 @@
 import React from 'react';
 import {Flex, Skeleton} from "@mantine/core";
-import '../styles/navbar.scss'
+import '../../styles/navbar.scss'
 
 const NavbarSkeleton = () => {
     return (

@@ -25,7 +25,7 @@ const baseQueryWithReauth : BaseQueryFn<
 
 export const api = createApi({
     endpoints: () => ({}),
-    tagTypes: [],
+    tagTypes: ['RESTAURANT_INFO'],
     reducerPath: 'api',
-    baseQuery: baseQueryWithReauth
+    baseQuery: baseQueryWithReauth,
 })

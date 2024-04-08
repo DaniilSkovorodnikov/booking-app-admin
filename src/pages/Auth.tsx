@@ -9,6 +9,7 @@ import InputError from "../components/InputError.tsx";
 import Input from "../components/InputOverride.tsx";
 import {useLoginMutation} from "../store/api/authApi.ts";
 import {useEffect} from "react";
+import {DefaultError} from "../models/api.ts";
 
 const Auth = () => {
     const form = useForm<UserAuthForm>({
@@ -17,7 +18,7 @@ const Auth = () => {
             password: '',
         }
     })
-    const [login, {data}] = useLoginMutation();
+    const [login, {data, error}] = useLoginMutation();
     const navigate = useNavigate()
 
     const handleSubmit = async (value: UserAuthForm) => {
@@ -60,6 +61,8 @@ const Auth = () => {
                                     {form.errors?.password && <InputError errorMessage={form.errors?.password as string}/>}
                                 </Flex>
                             </Flex>
+                            {(error as DefaultError)?.status === 422 && <InputError errorMessage="Проверьте корректность ввёденных данных"/>}
+                            {(error as DefaultError)?.status === 400 && <InputError errorMessage="Неверный E-mail или пароль"/>}
                         </Box>
                         <Center>
                             <Box w={{xl: 380, lg: 280}} mt={50}>

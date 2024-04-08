@@ -27,10 +27,12 @@ function App() {
     <Routes>
         <Route path="/login" element={<Auth/>}/>
         <Route path="/" element={<Home/>}>
-            <Route element={<RoleRequired roles={[Roles.Admin]}/>}>
+            <Route element={<RoleRequired roles={[Roles.Admin, Roles.Staff]}/>}>
                 <Route path="/" element={<AcceptedBookings/>}/>
                 <Route path="/add-booking" element={<AddBooking/>}/>
                 <Route path="/requests" element={<Requests/>}/>
+            </Route>
+            <Route element={<RoleRequired roles={[Roles.Admin]}/>}>
                 <Route path="/info" element={<RestaurantInfo/>}/>
                 <Route path="/stats" element={<Statistics/>}/>
             </Route>
