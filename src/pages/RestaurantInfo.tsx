@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {IRestaurant} from "../models/entities.tsx";
 import {Button, Container, Flex, Group, Textarea, Title} from "@mantine/core";
 import {isNotEmpty, useForm} from "@mantine/form";
@@ -27,7 +27,7 @@ const RestaurantInfo = () => {
     })
 
     const handleSubmit = (value: Partial<IRestaurant>) => {
-        if(!isEditMode || form.validate().hasErrors){
+        if (!isEditMode || form.validate().hasErrors) {
             return
         }
         const dirtyFields = Object
@@ -39,15 +39,20 @@ const RestaurantInfo = () => {
     }
 
     const handleAddImage = (event) => {
-        if(event.target?.files?.length){
+        if (event.target?.files?.length) {
             form.setFieldValue('images', [...form.values.images, event.target.files[0]])
             const fileReader = new FileReader()
             fileReader.onloadend = (event) => setImages(prevState => [...prevState, event.target.result as string])
-            fileReader.readAsDataURL(event.target.files[0])}
+            fileReader.readAsDataURL(event.target.files[0])
+        }
     }
 
+    const handleChangeAddress = useCallback((address: string) => {
+        form.setFieldValue('address', address)
+    }, [])
+
     useEffect(() => {
-        if(isError){
+        if (isError) {
             notifications.show({
                 title: 'Ошибка',
                 message: 'Произошла неизвестная ошибка!',
@@ -61,7 +66,7 @@ const RestaurantInfo = () => {
         form.setValues(restaurant)
     }, [restaurant]);
 
-    if(!isSuccess){
+    if (!isSuccess) {
         return <RestaurantSkeleton/>
     }
     return (
@@ -90,16 +95,21 @@ const RestaurantInfo = () => {
                             value={!restaurant.open_from || !restaurant.open_to ? undefined : `${restaurant.open_from} - ${restaurant.open_to}`}
                         />
                     }
-                    <SuggestAddress disabled={!isEditMode} onChange={(address, {latitude, longitude}) => {
-                        form.setFieldValue('address', address);
-                        form.setFieldValue('latitude', latitude);
-                        form.setFieldValue('longitude', longitude);
-                    }}/>
+                    <SuggestAddress
+                        defaultValue={restaurant.address}
+                        disabled={!isEditMode}
+                        onInputChange={handleChangeAddress}
+                        onChange={(address, {latitude, longitude}) => {
+                            form.setFieldValue('address', address);
+                            form.setFieldValue('latitude', latitude);
+                            form.setFieldValue('longitude', longitude);
+                        }}/>
                     <Input disabled={!isEditMode} placeholder="Вебсайт" {...form.getInputProps("site")}/>
                     <Container fluid p={0} m={0}>
                         <Title order={3} mb={8}>Фото ресторана</Title>
                         <Flex gap="md" align="center">
-                            {images.map((src, i) => <img className='restaurant-photo' key={i} src={src} style={{width: 120, height: 120}}/>)}
+                            {images.map((src, i) => <img className='restaurant-photo' key={i} src={src}
+                                                         style={{width: 120, height: 120}}/>)}
                             {isEditMode && images.length < 5 && <ImageInput onChange={handleAddImage}/>}
                         </Flex>
                     </Container>

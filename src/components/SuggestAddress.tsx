@@ -6,8 +6,8 @@ import {Popover} from "@mantine/core";
 import '../styles/suggested.scss'
 import {SuggestedInputProps} from "../models/props.ts";
 
-const SuggestAddress = ({onChange, disabled}: SuggestedInputProps) => {
-    const [inputAddress, setInputAddress] = useState<string>('')
+const SuggestAddress = ({onChange, disabled, defaultValue, onInputChange}: SuggestedInputProps) => {
+    const [inputAddress, setInputAddress] = useState<string>(defaultValue || '')
     const [suggestedItems, setSuggestedItems] = useState<ISuggestedAddress[]>([])
     const [item, setItem] = useState<ISuggestedAddress | undefined>()
     const [openedPopover, {open: openPopover, close: closePopover}] = useDisclosure()
@@ -16,7 +16,7 @@ const SuggestAddress = ({onChange, disabled}: SuggestedInputProps) => {
     const dropdownRef = useClickOutside(() => closePopover())
 
     useEffect(() => {
-        if (debouncedInputAddress.length > 10) {
+        if (debouncedInputAddress.length > 10 && debouncedInputAddress !== defaultValue) {
             fetch(`https://suggest-maps.yandex.ru/v1/suggest?apikey=a37b957c-e965-430b-bd89-0dccdc3360fa&text=${inputAddress}&print_address=1`)
                 .then(res => res.json())
                 .then(value => {
@@ -24,7 +24,7 @@ const SuggestAddress = ({onChange, disabled}: SuggestedInputProps) => {
                     openPopover()
                 })
         }
-    }, [debouncedInputAddress]);
+    }, [debouncedInputAddress, defaultValue]);
 
     useEffect(() => {
         if (item) {
@@ -38,6 +38,10 @@ const SuggestAddress = ({onChange, disabled}: SuggestedInputProps) => {
                 })
         }
     }, [item]);
+
+    useEffect(() => {
+        onInputChange(debouncedInputAddress)
+    }, [debouncedInputAddress, onInputChange]);
 
     return (
         <div ref={dropdownRef}>
