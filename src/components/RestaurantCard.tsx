@@ -1,10 +1,11 @@
 import React from 'react';
-import {ActionIcon, Badge, Button, Collapse, Container, Flex, Image, Title} from "@mantine/core";
+import {ActionIcon, Badge, Collapse, Container, Flex, Image, Title} from "@mantine/core";
 import {useDisclosure} from "@mantine/hooks";
 import '../styles/card.scss'
 import collapseIcon from "../assets/img/collapse-icon.svg";
 import {IRestaurant} from "../models/entities.tsx";
 
+const undefinedField = 'Не указано'
 const RestaurantCard = ({restaurant}: {restaurant: IRestaurant}) => {
     const [collapsed, {toggle}] = useDisclosure()
 
@@ -31,9 +32,9 @@ const RestaurantCard = ({restaurant}: {restaurant: IRestaurant}) => {
             </Flex>
             <Collapse in={collapsed}>
                 <Container p={0} m={0} mt={16}>
-                    <p>Номер телефона: {restaurant.phone_number}</p>
-                    <p>Веб сайт: {restaurant.site}</p>
-                    <p>Адрес: {restaurant.address}</p>
+                    <p>Номер телефона: {restaurant.phone_number || undefinedField}</p>
+                    <p>Веб сайт: {restaurant.site || undefinedField}</p>
+                    <p>Адрес: {restaurant.address || undefinedField}</p>
                 </Container>
             </Collapse>
         </Container>

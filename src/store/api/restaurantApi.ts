@@ -41,6 +41,19 @@ export const restaurantApi = api.injectEndpoints({
                 url: '/admin/staff',
                 method: 'POST'
             })
+        }),
+        getRestaurantTags: build.query<string[], void>({
+            query: () => '/admin/tags/'
+        }),
+        postImages: build.mutation({
+            query: (data) => ({
+                body: data.files,
+                url: `/admin/restaurants/${data.id}/images`,
+                method: 'POST'
+            })
+        }),
+        getImages: build.query<string[], number>({
+            query: id => `/restaurants/${id}/images`
         })
     }),
     overrideExisting: false
@@ -51,5 +64,8 @@ export const {
     useCreateRestaurantMutation,
     useGetRestaurantInfoQuery,
     useChangeRestaurantInfoMutation,
-    useAddStaffMutation
+    useAddStaffMutation,
+    useGetRestaurantTagsQuery,
+    usePostImagesMutation,
+    useGetImagesQuery
 } = restaurantApi

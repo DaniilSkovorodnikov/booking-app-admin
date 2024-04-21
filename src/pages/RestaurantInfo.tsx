@@ -8,21 +8,31 @@ import InputError from "../components/InputError.tsx";
 import ImageInput from "../components/ImageInput.tsx";
 import '../styles/restaurant.scss'
 import SuggestAddress from "../components/SuggestAddress.tsx";
-import {useChangeRestaurantInfoMutation, useGetRestaurantInfoQuery} from "../store/api/restaurantApi.ts";
+import {
+    useChangeRestaurantInfoMutation, useGetImagesQuery,
+    useGetRestaurantInfoQuery,
+    useGetRestaurantTagsQuery, usePostImagesMutation
+} from "../store/api/restaurantApi.ts";
 import RestaurantSkeleton from "../components/skeletons/RestaurantSkeleton.tsx";
 import {notifications} from "@mantine/notifications";
 
 const RestaurantInfo = () => {
-    const {data: restaurant, isSuccess, isError} = useGetRestaurantInfoQuery()
-    const [changeRestaurantInfo] = useChangeRestaurantInfoMutation()
+    const {data: restaurant, isSuccess, isError} = useGetRestaurantInfoQuery();
+    const {data: restaurantImages} = useGetImagesQuery(restaurant?.id, {
+        skip: !restaurant?.id
+    })
+    const {data: tags} = useGetRestaurantTagsQuery();
+    const [changeRestaurantInfo] = useChangeRestaurantInfoMutation();
+    const [postImages] = usePostImagesMutation();
 
     const [isEditMode, setIsEditMode] = useState(false)
     const [images, setImages] = useState<string[]>([])
 
     const form = useForm({
-        initialValues: restaurant,
+        initialValues: {...restaurant, images: []},
         validate: {
-            name: isNotEmpty('Поле обязательно к заполнению')
+            name: isNotEmpty('Поле обязательно к заполнению'),
+                phone_number: (value) => value && !(/^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/.test(value)) ? 'Некорректный формат номера телефона' : null,
         }
     })
 
@@ -34,8 +44,15 @@ const RestaurantInfo = () => {
             .entries(value)
             .filter(([key]) => form.isDirty(key))
         const newInfo = Object.fromEntries(dirtyFields)
+        handlePostImages(newInfo.images as File[])
         changeRestaurantInfo(newInfo)
         setIsEditMode(false)
+    }
+
+    const handlePostImages = (images: File[]) => {
+        const formData = new FormData();
+        images.forEach(image => formData.append('files', image));
+        postImages({files: formData, id: restaurant.id})
     }
 
     const handleAddImage = (event) => {
@@ -65,6 +82,12 @@ const RestaurantInfo = () => {
         form.setInitialValues(restaurant)
         form.setValues(restaurant)
     }, [restaurant]);
+
+    useEffect(() => {
+        if(restaurantImages){
+            setImages(prevState => [...prevState, ...restaurantImages])
+        }
+    }, [restaurantImages]);
 
     if (!isSuccess) {
         return <RestaurantSkeleton/>
@@ -104,6 +127,10 @@ const RestaurantInfo = () => {
                             form.setFieldValue('latitude', latitude);
                             form.setFieldValue('longitude', longitude);
                         }}/>
+                    <Flex direction='column'>
+                        <Input disabled={!isEditMode} placeholder="Номер телефона" {...form.getInputProps("phone_number")}/>
+                        {form.errors?.phone_number && <InputError errorMessage={form.errors.phone_number as string}/>}
+                    </Flex>
                     <Input disabled={!isEditMode} placeholder="Вебсайт" {...form.getInputProps("site")}/>
                     <Container fluid p={0} m={0}>
                         <Title order={3} mb={8}>Фото ресторана</Title>
@@ -116,9 +143,9 @@ const RestaurantInfo = () => {
                     <Container fluid p={0} m={0}>
                         <Title order={3} mb={8}>Характеристики</Title>
                         <Group>
-                            {restaurant.tags.map((category, i) => <Button
+                            {(isEditMode ? form.values : restaurant).tags.map((category, i) => <Button
                                 key={i}
-                                size="lg"
+                                size="sm"
                                 style={{cursor: isEditMode ? "pointer" : "default"}}
                                 onClick={() => form.setFieldValue(
                                     'tags',
@@ -126,6 +153,17 @@ const RestaurantInfo = () => {
                                 )}
                             >
                                 {category}
+                            </Button>)}
+                            {isEditMode && tags.filter(tag => !(restaurant.tags || []).includes(tag)).map((tag, i) => <Button
+                                key={i}
+                                size='sm'
+                                variant='outline'
+                                onClick={() => form.setFieldValue(
+                                    'tags',
+                                    prevValue => [...prevValue, tag]
+                                )}
+                            >
+                                {tag}
                             </Button>)}
                         </Group>
                     </Container>
