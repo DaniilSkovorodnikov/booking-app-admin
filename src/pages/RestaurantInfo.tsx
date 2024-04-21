@@ -154,7 +154,7 @@ const RestaurantInfo = () => {
                             >
                                 {category}
                             </Button>)}
-                            {isEditMode && tags.filter(tag => !(restaurant.tags || []).includes(tag)).map((tag, i) => <Button
+                            {isEditMode && tags.filter(tag => !(form.values.tags || []).includes(tag)).map((tag, i) => <Button
                                 key={i}
                                 size='sm'
                                 variant='outline'
