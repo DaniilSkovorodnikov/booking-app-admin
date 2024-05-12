@@ -25,7 +25,8 @@ export interface IRestaurant {
     address: string,
     phone_number: string,
     id: number,
-    active: boolean
+    active: boolean,
+    tables: ITable[]
 }
 
 export interface ISuggestedAddress{
@@ -59,4 +60,10 @@ export interface IStatistics {
     reserved: number,
     free: number,
     pendingRequests: number
+}
+
+export interface ITable{
+    people_count: number,
+    tags: string[],
+    id: number
 }

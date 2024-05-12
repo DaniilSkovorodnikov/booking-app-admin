@@ -37,3 +37,30 @@ a{
         color: #0C92F3;
     }
 }
+
+.input-with-right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding-right: 8px;
+    width: 240px;
+}
+
+.input-right-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    background-color: transparent;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover{
+        background-color: #F2F3F8;
+    }
+}

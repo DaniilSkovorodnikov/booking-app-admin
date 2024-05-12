@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useState} from 'react';
 import {IRestaurant} from "../models/entities.tsx";
-import {Button, Container, Flex, Group, Textarea, Title} from "@mantine/core";
+import {Badge, Button, Container, Flex, Group, ScrollArea, Table, Textarea, Title} from "@mantine/core";
 import {isNotEmpty, useForm} from "@mantine/form";
 import {TimeInput} from "@mantine/dates";
 import Input from "../components/InputOverride.tsx";
@@ -9,12 +9,14 @@ import ImageInput from "../components/ImageInput.tsx";
 import '../styles/restaurant.scss'
 import SuggestAddress from "../components/SuggestAddress.tsx";
 import {
-    useChangeRestaurantInfoMutation, useGetImagesQuery,
+    useChangeRestaurantInfoMutation, useDeleteTableMutation, useGetImagesQuery,
     useGetRestaurantInfoQuery,
     useGetRestaurantTagsQuery, usePostImagesMutation
 } from "../store/api/restaurantApi.ts";
 import RestaurantSkeleton from "../components/skeletons/RestaurantSkeleton.tsx";
 import {notifications} from "@mantine/notifications";
+import {useDisclosure} from "@mantine/hooks";
+import AddTablesModal from "../components/AddTablesModal.tsx";
 
 const RestaurantInfo = () => {
     const {data: restaurant, isSuccess, isError} = useGetRestaurantInfoQuery();
@@ -24,15 +26,17 @@ const RestaurantInfo = () => {
     const {data: tags} = useGetRestaurantTagsQuery();
     const [changeRestaurantInfo] = useChangeRestaurantInfoMutation();
     const [postImages] = usePostImagesMutation();
+    const [deleteTable] = useDeleteTableMutation()
 
     const [isEditMode, setIsEditMode] = useState(false)
     const [images, setImages] = useState<string[]>([])
+    const [opened, {open, close}] = useDisclosure(false)
 
     const form = useForm({
         initialValues: {...restaurant, images: []},
         validate: {
             name: isNotEmpty('Поле обязательно к заполнению'),
-                phone_number: (value) => value && !(/^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/.test(value)) ? 'Некорректный формат номера телефона' : null,
+                phone_number: (value) => value && !(/^((8|\+7)[\- ]?)?(\(?\d{3}\)?[- ]?)?[\d\- ]{7,10}$/.test(value)) ? 'Некорректный формат номера телефона' : null,
         }
     })
 
@@ -62,6 +66,10 @@ const RestaurantInfo = () => {
             fileReader.onloadend = (event) => setImages(prevState => [...prevState, event.target.result as string])
             fileReader.readAsDataURL(event.target.files[0])
         }
+    }
+
+    const handleDeleteTable = async (id: number) => {
+        await deleteTable(id)
     }
 
     const handleChangeAddress = useCallback((address: string) => {
@@ -167,6 +175,34 @@ const RestaurantInfo = () => {
                             </Button>)}
                         </Group>
                     </Container>
+                    <Container fluid p={0} m={0}>
+                        <ScrollArea h={320}>
+                            <Table mb='md' mt='md'>
+                                <Table.Tr>
+                                    <Table.Th>№ столика</Table.Th>
+                                    <Table.Th>Вместимость</Table.Th>
+                                    <Table.Th>Характеристики</Table.Th>
+                                    <Table.Th></Table.Th>
+                                </Table.Tr>
+                                {restaurant.tables.map((table, i) => <Table.Tr key={table.id}>
+                                    <Table.Td>№ {i + 1}</Table.Td>
+                                    <Table.Td>{table.people_count || 0}</Table.Td>
+                                    <Table.Td>
+                                        <Flex gap='xs' wrap='wrap'>
+                                            {table.tags.map(tag => <Badge>{tag}</Badge>)}
+                                        </Flex>
+                                    </Table.Td>
+                                    {isEditMode && <Table.Td
+                                        onClick={() => handleDeleteTable(table.id)}
+                                        style={{cursor: 'pointer'}}
+                                    >&#10006;</Table.Td>}
+                                </Table.Tr>)}
+                            </Table>
+                        </ScrollArea>
+                        {isEditMode && <Button variant='outline' color='gray' size='lg' onClick={open}>
+                            Добавить столики
+                        </Button>}
+                    </Container>
                 </Flex>
                 <Button
                     className="restaurant-send"
@@ -180,6 +216,7 @@ const RestaurantInfo = () => {
                     {isEditMode ? "Сохранить изменения" : "Редактировать"}
                 </Button>
             </form>
+            <AddTablesModal opened={opened} onClose={close}/>
         </Container>
     );
 };

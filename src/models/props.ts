@@ -37,3 +37,8 @@ export interface SuggestedInputProps {
     onChange: (address: string, coords: {latitude: number, longitude: number}) => void,
     onInputChange?: (address: string) => void
 }
+
+export interface AddTablesProps {
+    opened: boolean,
+    onClose: () => void
+}

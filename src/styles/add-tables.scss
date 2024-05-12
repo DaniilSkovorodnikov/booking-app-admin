@@ -1,0 +1,26 @@
+.deletable-badge{
+  position: relative;
+
+  button{
+    z-index: 1001;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: -9px;
+    top: -9px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid #d9d9d9;
+    background-color: white;
+    font-size: 12px;
+    cursor: pointer;
+  }
+}
+
+.number-input{
+  border: 1px solid var(--mantine-color-gray-4);
+  border-radius: 4px;
+  width: 200px;
+}
