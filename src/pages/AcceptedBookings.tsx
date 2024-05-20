@@ -19,9 +19,9 @@ export default AcceptedBookings;
 
 const mockBookings: IBooking[] = [
     {
-        datetime_to: "2024-03-20T13:37:38.439Z",
-        datetime_from: "2024-03-20T15:37:38.439Z",
-        persons_count: 2,
+        time_to: "2024-03-20T13:37:38.439Z",
+        time_from: "2024-03-20T15:37:38.439Z",
+        people_count: 2,
         table: 13,
         user: {
             name: "Сковородников Даниил",
@@ -30,9 +30,9 @@ const mockBookings: IBooking[] = [
         }
     },
     {
-        datetime_to: "2024-03-20T13:37:38.439Z",
-        datetime_from: "2024-03-20T15:37:38.439Z",
-        persons_count: 2,
+        time_to: "2024-03-20T13:37:38.439Z",
+        time_from: "2024-03-20T15:37:38.439Z",
+        people_count: 2,
         table: 13,
         user: {
             name: "Сковородников Даниил",
@@ -41,9 +41,9 @@ const mockBookings: IBooking[] = [
         }
     },
     {
-        datetime_to: "2024-03-20T13:37:38.439Z",
-        datetime_from: "2024-03-20T15:37:38.439Z",
-        persons_count: 2,
+        time_to: "2024-03-20T13:37:38.439Z",
+        time_from: "2024-03-20T15:37:38.439Z",
+        people_count: 2,
         table: 13,
         user: {
             name: "Сковородников Даниил",

@@ -21,15 +21,15 @@ const BookingCard = ({booking, isRequest}: BookingCardProps) => {
                     direction="column"
                     justify="space-between"
                 >
-                    <p>{getBookingPeriod(booking.datetime_from, booking.datetime_to)}</p>
-                    <p>{booking.table} стол</p>
+                    <p>{getBookingPeriod(booking.time_from, booking.time_to)}</p>
+                    <p>Стол №{booking.table_id + 1}</p>
                 </Flex>
-                <Badge>{getPersonsCountString(booking.persons_count)}</Badge>
+                <Badge>{getPersonsCountString(booking.people_count)}</Badge>
             </Flex>
             <Collapse in={collapsed}>
                 <Container p={0} m={0} mt={16}>
                     <p>Имя: {booking.user.name}</p>
-                    <p>Номер телефона: {booking.user.phone_number}</p>
+                    <p>Номер телефона: {booking.user.phone_number || 'Не указано'}</p>
                     <Flex gap="xl" mt={16}>
                         <Button size="sm">{isRequest ? 'Подтвердить бронирование' : 'Завершить посещение'}</Button>
                         <Button variant="gray" size="sm">Отменить бронирование</Button>

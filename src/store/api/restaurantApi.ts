@@ -1,7 +1,7 @@
 import {api} from "./api.ts";
 import {AddRestaurantResponse, AddUserResponse} from "../../models/api.ts";
 import {AddRestaurantForm, AddUserForm} from "../../models/components.ts";
-import {IRestaurant} from "../../models/entities.tsx";
+import {IBooking, IRestaurant} from "../../models/entities.tsx";
 
 export const restaurantApi = api.injectEndpoints({
     endpoints: build => ({
@@ -69,6 +69,9 @@ export const restaurantApi = api.injectEndpoints({
                 method: 'DELETE'
             }),
             invalidatesTags: ['RESTAURANT_INFO']
+        }),
+        getRequests: build.query<IBooking[], void>({
+            query: () => '/admin/restaurants/bookings',
         })
     }),
     overrideExisting: false
@@ -84,5 +87,6 @@ export const {
     usePostImagesMutation,
     useGetImagesQuery,
     usePostTablesCountMutation,
-    useDeleteTableMutation
+    useDeleteTableMutation,
+    useGetRequestsQuery,
 } = restaurantApi

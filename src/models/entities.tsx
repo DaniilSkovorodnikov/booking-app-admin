@@ -1,9 +1,11 @@
 export interface IBooking {
-    table: number;
-    persons_count: number;
-    datetime_from: string;
-    datetime_to: string;
-    user: IUser
+    table: ITable;
+    table_id: number;
+    people_count: number;
+    time_from: string;
+    time_to: string;
+    user: IUser;
+    comment?: string;
 }
 
 export interface IUser {
