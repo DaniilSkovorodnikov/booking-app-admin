@@ -17,38 +17,4 @@ const AcceptedBookings = () => {
 
 export default AcceptedBookings;
 
-const mockBookings: IBooking[] = [
-    {
-        time_to: "2024-03-20T13:37:38.439Z",
-        time_from: "2024-03-20T15:37:38.439Z",
-        people_count: 2,
-        table: 13,
-        user: {
-            name: "Сковородников Даниил",
-            phone_number: "+7 909 606-82-33",
-            email: ""
-        }
-    },
-    {
-        time_to: "2024-03-20T13:37:38.439Z",
-        time_from: "2024-03-20T15:37:38.439Z",
-        people_count: 2,
-        table: 13,
-        user: {
-            name: "Сковородников Даниил",
-            phone_number: "+7 909 606-82-33",
-            email: ""
-        }
-    },
-    {
-        time_to: "2024-03-20T13:37:38.439Z",
-        time_from: "2024-03-20T15:37:38.439Z",
-        people_count: 2,
-        table: 13,
-        user: {
-            name: "Сковородников Даниил",
-            phone_number: "+7 909 606-82-33",
-            email: ""
-        }
-    }
-]
+const mockBookings: IBooking[] = []
