@@ -1,10 +1,9 @@
 import {Container, Flex, Loader, Title} from "@mantine/core";
-import {IBooking} from "../models/entities.tsx";
 import BookingCard from "../components/BookingCard.tsx";
-import {useGetRequestsQuery} from "../store/api/restaurantApi.ts";
+import {useGetBookingsQuery} from "../store/api/restaurantApi.ts";
 
 const Requests = () => {
-    const {data: bookings, isLoading} = useGetRequestsQuery();
+    const {data: bookings, isLoading} = useGetBookingsQuery();
 
     if (isLoading){
         return <Loader size='xl'/>
@@ -13,7 +12,7 @@ const Requests = () => {
         <Container fluid>
             <Title order={1}>Заявки на бронирование</Title>
             <Flex direction="column" gap="sm" mt="xl">
-                {bookings.map((booking, i) => <BookingCard key={i} booking={booking} isRequest/>)}
+                {bookings.filter(booking => booking.status === 'await_confirm').map((booking) => <BookingCard key={booking.id} booking={booking} isRequest/>)}
             </Flex>
         </Container>
     );

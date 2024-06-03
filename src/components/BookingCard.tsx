@@ -4,9 +4,25 @@ import {ActionIcon, Badge, Button, Collapse, Container, Flex, Image} from "@mant
 import collapseIcon from "../assets/img/collapse-icon.svg"
 import "../styles/card.scss"
 import {getBookingPeriod, getPersonsCountString} from "../utils/helpers.ts";
+import {useChangeBookingStatusMutation} from "../store/api/restaurantApi.ts";
+import {useEffect} from "react";
+import {notifications} from "@mantine/notifications";
 
 const BookingCard = ({booking, isRequest}: BookingCardProps) => {
+    const [changeStatus, {data}] = useChangeBookingStatusMutation()
     const [collapsed, { toggle }] = useDisclosure(false);
+
+    const changeStatusClick = (status: 'confirmed' | 'rejected' | 'completed') => {
+        changeStatus({status, id: booking.id})
+    }
+
+    useEffect(() => {
+        if(data?.id){
+            notifications.show({
+                message: `Бронь ${data.status === 'confirmed' ? 'подтверждена' : data.status === 'completed' ? 'завершена' : 'отклонена'}!`
+            })
+        }
+    }, [data]);
 
     return (
         <Container fluid className="card" pl={66} pr={18} py={12}>
@@ -31,8 +47,8 @@ const BookingCard = ({booking, isRequest}: BookingCardProps) => {
                     <p>Имя: {booking.user.name}</p>
                     <p>Номер телефона: {booking.user.phone_number || 'Не указано'}</p>
                     <Flex gap="xl" mt={16}>
-                        <Button size="sm">{isRequest ? 'Подтвердить бронирование' : 'Завершить посещение'}</Button>
-                        <Button variant="gray" size="sm">Отменить бронирование</Button>
+                        <Button size="sm" onClick={() => changeStatusClick(isRequest ? 'confirmed' : 'completed')}>{isRequest ? 'Подтвердить бронирование' : 'Завершить посещение'}</Button>
+                        <Button variant="gray" size="sm" onClick={() => changeStatusClick('rejected')}>Отменить бронирование</Button>
                     </Flex>
                 </Container>
             </Collapse>

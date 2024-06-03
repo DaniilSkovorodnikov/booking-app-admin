@@ -6,6 +6,8 @@ export interface IBooking {
     time_to: string;
     user: IUser;
     comment?: string;
+    id: number;
+    status: 'await_confirm' | 'confirmed' | 'rejected' | 'completed'
 }
 
 export interface IUser {

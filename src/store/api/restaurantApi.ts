@@ -70,8 +70,17 @@ export const restaurantApi = api.injectEndpoints({
             }),
             invalidatesTags: ['RESTAURANT_INFO']
         }),
-        getRequests: build.query<IBooking[], void>({
+        getBookings: build.query<IBooking[], void>({
             query: () => '/admin/restaurants/bookings',
+            providesTags: ['BOOKINGS']
+        }),
+        changeBookingStatus: build.mutation<any, any>({
+            query: ({status, id}) => ({
+                body: { status },
+                url: `/admin/restaurants/bookings/${id}`,
+                method: 'PATCH'
+            }),
+            invalidatesTags: ['BOOKINGS']
         })
     }),
     overrideExisting: false
@@ -88,5 +97,6 @@ export const {
     useGetImagesQuery,
     usePostTablesCountMutation,
     useDeleteTableMutation,
-    useGetRequestsQuery,
+    useGetBookingsQuery,
+    useChangeBookingStatusMutation
 } = restaurantApi
