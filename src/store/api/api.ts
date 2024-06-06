@@ -1,7 +1,7 @@
 import {BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError} from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'https://restaurants.zapto.org/api/',
+    baseUrl: 'https://restaurants-booking.ru/api/',
     prepareHeaders: (headers) => {
         const token =  localStorage.getItem('token');
         if(token){
